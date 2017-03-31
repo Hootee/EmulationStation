@@ -340,18 +340,12 @@ void Window::setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpSt
 
 void Window::onSleep()
 {
-	const std::string path = getHomePath() + "/.emulationstation/onSleep.sh";
-	if(!boost::filesystem::exists(path))
-		return;
-	runSystemCommand(path);
+	runSystemCommand("/usr/bin/vcgencmd display_power 0");
 }
 
 void Window::onWake()
 {
-	const std::string path = getHomePath() + "/.emulationstation/onWake.sh";
-	if(!boost::filesystem::exists(path))
-		return;
-	runSystemCommand(path);
+	runSystemCommand("/usr/bin/vcgencmd display_power 1");
 }
 
 bool Window::isProcessing()
