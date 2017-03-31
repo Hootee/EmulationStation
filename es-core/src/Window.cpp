@@ -4,8 +4,10 @@
 #include "AudioManager.h"
 #include "Log.h"
 #include "Settings.h"
+#include "platform.h"
 #include <algorithm>
 #include <iomanip>
+#include <boost/filesystem.hpp>
 #include "components/HelpComponent.h"
 #include "components/ImageComponent.h"
 
@@ -338,11 +340,18 @@ void Window::setHelpPrompts(const std::vector<HelpPrompt>& prompts, const HelpSt
 
 void Window::onSleep()
 {
+	const std::string path = getHomePath() + "/.emulationstation/onSleep.sh";
+	if(!boost::filesystem::exists(path))
+		return;
+	runSystemCommand(path);
 }
 
 void Window::onWake()
 {
-
+	const std::string path = getHomePath() + "/.emulationstation/onWake.sh";
+	if(!boost::filesystem::exists(path))
+		return;
+	runSystemCommand(path);
 }
 
 bool Window::isProcessing()
